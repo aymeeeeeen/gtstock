@@ -1,22 +1,23 @@
-package org.sid.gestionstock.dao;
+package org.sid.gestionstock.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Entity @Data @AllArgsConstructor @NoArgsConstructor
-public class CommandeClient {
+public class MouvementStock {
+    public static final int ENTREE = 1;
+    public static final int SORTIE = 2;
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String code;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCommande;
+    private Date dateMouvement;
+    private BigDecimal quantite;
+    private int typeMouvement;
     @ManyToOne
-    private Client client;
-    @OneToMany(mappedBy = "commandeClient")
-    private List<LigneCommandeClient> ligneCommandeClients;
+    private Article article;
 }

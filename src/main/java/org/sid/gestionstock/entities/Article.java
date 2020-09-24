@@ -1,4 +1,4 @@
-package org.sid.gestionstock.dao;
+package org.sid.gestionstock.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

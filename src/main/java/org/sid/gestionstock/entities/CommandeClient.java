@@ -1,4 +1,4 @@
-package org.sid.gestionstock.dao;
+package org.sid.gestionstock.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,13 +9,14 @@ import java.util.Date;
 import java.util.List;
 
 @Entity @Data @AllArgsConstructor @NoArgsConstructor
-public class CommandeFournisseur {
+public class CommandeClient {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String code;
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateCommande;
     @ManyToOne
-    private Fournisseur fournisseur;
-    @OneToMany(mappedBy = "commandeFournisseur")
-    private List<LigneCommandeFournisseur> ligneCommandeFournisseurs;
+    private Client client;
+    @OneToMany(mappedBy = "commandeClient")
+    private List<LigneCommandeClient> ligneCommandeClients;
 }
