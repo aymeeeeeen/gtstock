@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{index.html}">
+<head>
+    <title>Nouveau Article</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="content-header justify-content-between">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item"><a href="ltArticle">Listes des Articles</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Nouveau Article</li>
+                </ol>
+            </nav>
+            <h4 class="content-title content-title-xs">Formulaire pour ajouter un nouveau article</h4>
+        </div>
+
+    </div>
+    <div class="alert alert-solid alert-primary d-flex align-items-center mg-b-0" role="alert">
+        <i data-feather="alert-circle" class="mg-r-10"></i> A primary alert—check it out!
+    </div>
+    <div class="card mg-t-25">
+        <div class="card-body">
+            <h6 class="tx-uppercase tx-semibold tx-color-01 mg-b-0">Les informations D'un Article</h6>
+            <hr>
+            <div class="">
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label class="form-label">Code Article</label>
+                        <input type="text" class="form-control" placeholder="Entrer Le Nom Du Client">
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Catégory</label>
+                        <input type="text" class="form-control" placeholder="Entrer Le Prenom Du Client">
+                    </div>
+                </div><!-- form-group -->
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label class="form-label">Prix Unitaire HT</label>
+                        <input type="text" class="form-control" placeholder="Entrer L'Adresse Mail Du Client">
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Prix Unitaire TTC</label>
+                        <input type="text" class="form-control" placeholder="Entrer Le Numéro De Téléphone Du Client">
+                    </div>
+                </div><!-- form-group -->
+                <div class="form-group row">
+                    <div class="col-sm-6">
+                        <label class="form-label">Taux TVA</label>
+                        <input type="text" class="form-control" placeholder="Entrer La Ville Du Client">
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label">Designation</label>
+                        <textarea class="form-control" rows="2" placeholder="Tapez L'Adresse Du Client"></textarea>
+                    </div>
+                </div><!-- form-group -->
+                <hr class="op-0">
+
+                <button class="btn btn-brand-02">Enregistrer</button>
+                <button class="btn btn-white mg-l-2">Annuler</button>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index.html}">
+<head>
+    <title>Liste des clients</title>
+
+    <!-- vendor css -->
+    <link href="/../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="/../lib/prismjs/themes/prism-tomorrow.css" rel="stylesheet">
+    <link href="/../lib/datatables.net-dt/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="/../lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css" rel="stylesheet">
+    <link href="/../lib/select2/css/select2.min.css" rel="stylesheet">
+
+    <!-- template css -->
+    <link rel="stylesheet" href="/../assets/css/cassie.css">
+
+</head>
+<body>
+<section layout:fragment="content">
+
+    <div class="content-header justify-content-between">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Listes des Clients</li>
+                </ol>
+            </nav>
+            <h4 class="content-title content-title-xs">Clients</h4>
+        </div>
+        <div class="d-none d-sm-flex">
+            <a href="addClient" class="btn btn-primary btn-sm btn-uppercase"><i data-feather="plus-circle"></i> Nouveau Client</a>
+        </div>
+    </div>
+    <div class="component-section">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="example2_wrapper" class="dataTables_wrapper no-footer">
+                    <div class="dataTables_length" id="example2_length">
+                        <label>
+                            <select name="example2_length" aria-controls="example2" class="select2-hidden-accessible" data-select2-id="4" tabindex="-1" aria-hidden="true">
+                                <option value="10" data-select2-id="6">10</option>
+                                <option value="25">25</option><option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="5" style="width: 47.6px;">
+                                <span class="selection">
+                                    <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-example2_length-fu-container">
+                                        <span class="select2-selection__rendered" id="select2-example2_length-fu-container" role="textbox" aria-readonly="true" title="10">10</span>
+                                        <span class="select2-selection__arrow" role="presentation">
+                                            <b role="presentation"></b>
+                                        </span>
+                                    </span>
+                                </span>
+                                <span class="dropdown-wrapper" aria-hidden="true"></span>
+                            </span> items/page
+                        </label>
+                    </div>
+                    <div id="example2_filter" class="dataTables_filter">
+                        <label>
+                            <input type="search" class="" placeholder="Search..." aria-controls="example2">
+                        </label>
+                    </div>
+
+                    <table id="example2" class="table">
+                        <tr>
+                            <th class="sorting">ID</th><th class="sorting">Nom</th><th class="sorting">Prenom</th><th class="sorting">Adresse</th><th class="sorting">Mail</th><th>Action</th>
+                        </tr>
+                        <tr th:each="c:${clients}">
+                            <td th:text="${c.id}"></td>
+                            <td th:text="${c.nom}"></td>
+                            <td th:text="${c.prenom}"></td>
+                            <td th:text="${c.adresse}"></td>
+                            <td th:text="${c.mail}"></td>
+                        </tr>
+                    </table>
+
+                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
+                    <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                        <ul class="nav nav-pills">
+                            <il th:each="page,status:${pages}" class="page-item">
+                                <a th:class="${status.index==currentPage?'paginate_button current':'paginate_button'}" th:href="@{ltClient(page=${status.index}, keyword=${key}, size=${size})}" th:text="${status.index}"></a>
+                            </il>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+<script src="/../lib/jquery/jquery.min.js"></script>
+<script src="/../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/../lib/feather-icons/feather.min.js"></script>
+<script src="/../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="/../lib/prismjs/prism.js"></script>
+<script src="/../lib/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/../lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
+<script src="/../lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/../lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js"></script>
+<script src="/../lib/select2/js/select2.min.js"></script>
+<script src="/../lib/js-cookie/js.cookie.js"></script>
+
+<script src="/../assets/js/cassie.js"></script>
+<script>
+    $(function() {
+        'use strict'
+
+        $('#example2').DataTable({
+            responsive: true,
+            language: {
+                searchPlaceholder: 'Search...',
+                sSearch: '',
+                lengthMenu: '_MENU_ items/page',
+            }
+        });
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
+    })
+</script>
+</body>
+</html>
+
+
+
+<!--    <div class="content-body content-body-components">-->
+<!--        <div class="row row-sm">-->
+<!--            <div class="component-section">-->
+
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!--*******************************************************************************************-->
+<!--<div class="dataTables_length" id="example1_length">-->
+<!--    <label>-->
+<!--        <select name="example1_length" aria-controls="example1" class="select2-hidden-accessible" data-select2-id="1" tabindex="-1" aria-hidden="true">-->
+<!--            <option value="10" data-select2-id="3">10</option>-->
+<!--            <option value="25">25</option>-->
+<!--            <option value="50">50</option>-->
+<!--            <option value="100">100</option>-->
+<!--        </select>-->
+<!--        <span class="select2 select2-container select2-container&#45;&#45;default" dir="ltr" data-select2-id="2" style="width: 47.6px;">-->
+<!--                                        <span class="selection">-->
+<!--                                            <span class="select2-selection select2-selection&#45;&#45;single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-example1_length-3p-container">-->
+<!--                                                <span class="select2-selection__rendered" id="select2-example1_length-3p-container" role="textbox" aria-readonly="true" title="10">10</span>-->
+<!--                                                <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>-->
+<!--                                            </span>-->
+<!--                                        </span>-->
+<!--                                        <span class="dropdown-wrapper" aria-hidden="true"></span>-->
+<!--                                    </span> items/page-->
+<!--    </label>-->
+<!--</div>
+
+<table id="example1" class="table dataTable no-footer">
+                                        <tr>
+                                            <th class="sorting">ID</th><th class="sorting">Nom</th><th class="sorting">Prenom</th><th class="sorting">Adresse</th><th class="sorting">Mail</th><th>Action</th>
+                                        </tr>
+                                        <tr th:each="c:${clients}">
+                                            <td th:text="${c.id}"></td>
+                                            <td th:text="${c.nom}"></td>
+                                            <td th:text="${c.prenom}"></td>
+                                            <td th:text="${c.adresse}"></td>
+                                            <td th:text="${c.mail}"></td>
+                                        </tr>
+                                    </table>
+-->
