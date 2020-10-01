@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RepositoryRestResource
 @CrossOrigin("*")
 public interface FournisseurRepository extends JpaRepository<Fournisseur, Long> {
-    public Page<Fournisseur> findByNom(String mc, Pageable pageable);
+    public Page<Fournisseur> findByNomContains(String mc, Pageable pageable);
 }

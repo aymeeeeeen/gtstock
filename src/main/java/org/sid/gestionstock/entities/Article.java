@@ -13,10 +13,12 @@ public class Article {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String codeArticle;
+    private String nomArticle;
     private String designation;
     private BigDecimal prixUnitaireHT;
     private BigDecimal tauxTVA;
     private BigDecimal prixUnitaireTTC;
+    private Integer quantitee;
     private String photo;
     @ManyToOne
     private Category category;

@@ -35,15 +35,16 @@
             <a href="addArticle" class="btn btn-primary btn-sm btn-uppercase"><i data-feather="plus-circle"></i> Nouveau Article</a>
         </div>
     </div>
-    <div class="component-section">
+    <div class="component-section mg-t-0">
         <div class="row">
             <div class="col-sm-12">
                 <div id="example2_wrapper" class="dataTables_wrapper no-footer">
                     <div class="dataTables_length" id="example2_length">
                         <label>
                             <select name="example2_length" aria-controls="example2" class="select2-hidden-accessible" data-select2-id="4" tabindex="-1" aria-hidden="true">
-                                <option value="10" data-select2-id="6">10</option>
-                                <option value="25">25</option><option value="50">50</option>
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
                                 <option value="100">100</option>
                             </select>
                             <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="5" style="width: 47.6px;">
@@ -59,49 +60,71 @@
                             </span> items/page
                         </label>
                     </div>
-                    <div id="example2_filter" class="dataTables_filter">
-                        <label>
-                            <input type="search" class="" placeholder="Search..." aria-controls="example2">
-                        </label>
-                    </div>
+                    <form method="get" th:action="@{ltArticle}" role="search" class="app-search">
 
-                    <table id="example2" class="table">
+                        <div id="example2_filter" class="dataTables_filter">
+                            <label>
+                                <input type="search" class="form-control" placeholder="Search..." aria-controls="example2" name="key" th:value="${key}">
+                            </label>
+                        </div>
+                    </form>
+                    <table id="example2" class="table dataTable no-footer dtr-inline">
                         <tr>
-                            <th class="sorting">ID</th>
+                            <th class="sorting_asc" >ID</th>
                             <th class="sorting">Code Article</th>
-                            <th class="sorting">Designation</th>
+                            <th class="sorting">Article</th>
                             <th class="sorting">Prix Unitaire HT</th>
-                            <th class="sorting">Prix Unitaire TTC</th
-                            ><th class="sorting">Taux TVA</th>
-                            <th class="sorting">Catégory</th>
+                            <th class="sorting">Prix Unitaire TTC</th>
                             <th>Action</th>
                         </tr>
                         <tr th:each="a:${articles}">
                             <td th:text="${a.id}"></td>
                             <td th:text="${a.codeArticle}"></td>
-                            <td th:text="${a.designation}"></td>
+                            <td th:text="${a.nomArticle}"></td>
                             <td th:text="${a.prixUnitaireHT}"></td>
                             <td th:text="${a.prixUnitaireTTC}"></td>
-                            <td th:text="${a.tauxTVA}"></td>
-                            <td th:text="${a.getCategory()}"></td>
+                            <td>
+                                <a onclick="return confirm('Vous voulez vraimant supprimer cet article ?')" class="ion-trash-b" style=""
+                                   th:href="@{deleteArticle(id=${a.id}, key=${key}, page=${currentPage}, size=${size})}"></a>
+                                <a> | </a>
+                                <a class="ion-compose" style="" th:href="@{editArticle(id=${a.id})}"></a>
+                            </td>
                         </tr>
                     </table>
-
-                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
-                    <div class="dataTables_paginate paging_simple_numbers" id="example2_paginate">
+                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                        Total Items [[${totalItems}]].
+                    </div>
+                    <div class="dataTables_paginate paging_simple_numbers">
                         <ul class="nav nav-pills">
-                            <il th:each="page,status:${pages}" class="page-item">
-                                <a th:class="${status.index==currentPage?'paginate_button current':'paginate_button'}" th:href="@{ltArticle(page=${status.index}, keyword=${key}, size=${size})}" th:text="${status.index}"></a>
-                            </il>
+                            <nav aria-label="Page navigation example">
+                                <div class="dataTables_paginate paging_simple_numbers" >
+                                    <div>
+
+                                    </div>
+                                    <div>
+                                        <a class="paginate_button previous" th:if="${currentPage != 0}"  th:href="@{ltArticle(page=${currentPage - 1}, keyword=${key}, size=${size})}" aria-controls="example2" data-dt-idx="0" tabindex="0" id="example2_previous">Precedent</a>
+                                        <span th:unless="${currentPage > -1}"></span>
+                                        <il th:each="page,status:${pages}" class="page-item">
+                                            <a th:if="${totalpages > 1}" th:class="${status.index==currentPage?'paginate_button current':'paginate_button'}" th:href="@{ltArticle(page=${status.index}, keyword=${key}, size=${size})}" th:text="${status.index}"></a>
+                                        </il>
+                                        <a class="paginate_button next" th:if="${totalpages > 1}"
+                                           th:href="@{ltArticle(page=${currentPage + 1}, keyword=${key}, size=${size})}"
+                                           th:unless="${currentPage == (totalpages - 1)}"
+                                           aria-controls="example2"
+                                           data-dt-idx="7"
+                                           tabindex="0"
+                                           id="example2_next">Suivant</a>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                            </nav>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-
 </section>
 
 <script src="/../lib/jquery/jquery.min.js"></script>
@@ -117,7 +140,7 @@
 <script src="/../lib/js-cookie/js.cookie.js"></script>
 
 <script src="/../assets/js/cassie.js"></script>
-<script>
+<script th:inline="javascript">
     $(function() {
         'use strict'
 

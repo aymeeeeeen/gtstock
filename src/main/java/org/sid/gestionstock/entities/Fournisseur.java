@@ -13,9 +13,10 @@ public class Fournisseur {
     private Long id;
     private String nom;
     private String prenom;
+    private String ville;
     private String adresse;
-    private String photo;
     private String mail;
+    private String tel;
     @OneToMany(mappedBy = "fournisseur")
     private List<CommandeFournisseur> commandeFournisseurs;
 }

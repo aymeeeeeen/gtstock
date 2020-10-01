@@ -11,5 +11,5 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RepositoryRestResource
 @CrossOrigin("*")
 public interface ClientRepository extends JpaRepository<Client, Long> {
-    public Page<Client> findByNom(String mc, Pageable pageable);
+    public Page<Client> findByNomContains(String mc, Pageable pageable);
 }

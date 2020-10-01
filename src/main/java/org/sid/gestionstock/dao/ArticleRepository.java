@@ -11,5 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RepositoryRestResource
 @CrossOrigin("*")
 public interface ArticleRepository extends JpaRepository<Article, Long> {
-    public Page<Article> findByCodeArticle(String mc, Pageable pageable);
+    public Page<Article> findByCodeArticleContains(String mc, Pageable pageable);
+
 }
+
+

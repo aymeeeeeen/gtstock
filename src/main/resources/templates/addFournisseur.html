@@ -25,44 +25,47 @@
     </div>
     <div class="card mg-t-25">
         <div class="card-body">
-            <h6 class="tx-uppercase tx-semibold tx-color-01 mg-b-0">Les informations Du Fournisseur</h6>
-            <hr>
-            <div class="">
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                        <label class="form-label">Nom</label>
-                        <input type="text" class="form-control" placeholder="Entrer Le Nom Du Fournisseur">
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="form-label">Prenom</label>
-                        <input type="text" class="form-control" placeholder="Entrer Le Prenom Du Fournisseur">
-                    </div>
-                </div><!-- form-group -->
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                        <label class="form-label">Mail</label>
-                        <input type="text" class="form-control" placeholder="Entrer L'Adresse Mail Du Fournisseur">
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="form-label">Numéro De Téléphone</label>
-                        <input type="text" class="form-control" placeholder="Entrer Le Numéro De Téléphone Du Fournisseur">
-                    </div>
-                </div><!-- form-group -->
-                <div class="form-group row">
-                    <div class="col-sm-6">
-                        <label class="form-label">Ville</label>
-                        <input type="text" class="form-control" placeholder="Entrer La Ville Du Fournisseur">
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="form-label">Adresse</label>
-                        <textarea class="form-control" rows="2" placeholder="Tapez L'Adresse Du Fournisseur"></textarea>
-                    </div>
-                </div><!-- form-group -->
-                <hr class="op-0">
+            <form th:action="@{saveFournisseur}" method="post" th:object="${fournisseur}">
+                <h6 class="tx-uppercase tx-semibold tx-color-01 mg-b-0">Les informations Du Fournisseur</h6>
+                <hr>
+                <div class="">
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label class="form-label">Nom</label>
+                            <input class="form-control" type="hidden" name="id" th:value="${fournisseur.id}">
+                            <input type="text" class="form-control" placeholder="Entrer Le Nom Du Fournisseur" th:field="*{nom}">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label">Prenom</label>
+                            <input type="text" class="form-control" placeholder="Entrer Le Prenom Du Fournisseur" th:field="*{prenom}">
+                        </div>
+                    </div><!-- form-group -->
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label class="form-label">Mail</label>
+                            <input type="text" class="form-control" placeholder="Entrer L'Adresse Mail Du Fournisseur" th:field="*{mail}">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label">Numéro De Téléphone</label>
+                            <input type="text" class="form-control" placeholder="Entrer Le Numéro De Téléphone Du Fournisseur" th:field="*{tel}">
+                        </div>
+                    </div><!-- form-group -->
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <label class="form-label">Ville</label>
+                            <input type="text" class="form-control" placeholder="Entrer La Ville Du Fournisseur" th:field="*{ville}">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label">Adresse</label>
+                            <textarea class="form-control" rows="2" placeholder="Tapez L'Adresse Du Fournisseur" th:field="*{adresse}"></textarea>
+                        </div>
+                    </div><!-- form-group -->
+                    <hr class="op-0">
 
-                <button class="btn btn-brand-02">Enregistrer</button>
-                <button class="btn btn-white mg-l-2">Annuler</button>
-            </div>
+                    <button class="btn btn-brand-02" type="submit">Enregistrer</button>
+                    <button class="btn btn-white mg-l-2">Annuler</button>
+                </div>
+            </form>
         </div>
     </div>
 </section>
