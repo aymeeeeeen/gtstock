@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{index.html}">
+<head>
+<title>Nouveau Commande</title>
+</head>
+<body>
+	<section layout:fragment="content">
+		<div class="content-header justify-content-between">
+			<div>
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="#">Pages</a></li>
+						<li class="breadcrumb-item"><a href="ltArticle">Listes
+								des Articles</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Nouveau
+							Commande</li>
+					</ol>
+				</nav>
+				<h4 class="content-title content-title-xs">Formulaire pour
+					ajouter un nouveau commande</h4>
+			</div>
+
+		</div>
+		<div
+			class="alert alert-solid alert-primary d-flex align-items-center mg-b-0"
+			role="alert">
+			<i data-feather="alert-circle" class="mg-r-10"></i> Cette alerte a
+			besoin de votre attention,<strong>vous devez obligatoirement
+				remplir tous les champs.</strong>
+		</div>
+		<div class="card mg-t-25">
+			<div class="card-body">
+				<form th:action="@{savecommandeClient}" method="post"
+					th:object="${commandeClient}">
+					<h6 class="tx-uppercase tx-semibold tx-color-01 mg-b-0"
+						style="padding-left: 500px;">Les informations Du Commande</h6>
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<label class="form-label">code</label> <input
+								class="form-control" type="hidden" name="id"
+								th:value="${commandeClient.id}"> <input type="text"
+								class="form-control" placeholder="Entrer Le code Du Commande"
+								th:field="*{code}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-6">
+							<label class="form-label">date Commande</label> <input
+								type="date" class="form-control" th:field="*{dateCommande}">
+						</div>
+						
+					</div> <div class="col-sm-6">
+                            <label class="form-label">Client</label>
+                            <select class="form-control" th:field="*{client.id}">
+									<option value="">--</option>
+									<option onfocus='this.size=5;' onblur='this.size=1;'
+										onchange='this.size=1; this.blur();'
+										th:each="client : ${ltClient}" th:value="${client.id}"
+										th:utext="${client.id}" />
+								</select>
+                        </div>
+                        <button class="btn btn-brand-02" type="submit">Enregistrer</button>
+                    <button class="btn btn-white mg-l-2">Annuler</button>
+				</form>
+			</div>
+		</div>
+</body>
+</html>

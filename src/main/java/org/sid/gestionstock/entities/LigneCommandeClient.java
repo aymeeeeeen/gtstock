@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 
 @Entity @Data @AllArgsConstructor @NoArgsConstructor
@@ -14,4 +16,6 @@ public class LigneCommandeClient {
     private Article article;
     @ManyToOne
     private CommandeClient commandeClient;
+    private double quantite;
+    private double prixUnitaire;
 }

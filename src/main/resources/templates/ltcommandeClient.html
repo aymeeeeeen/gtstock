@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{index.html}">
+<head>
+    <title>Liste des Commandes</title>
+
+    <!-- vendor css -->
+    <link href="/../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="/../lib/prismjs/themes/prism-tomorrow.css" rel="stylesheet">
+    <link href="/../lib/datatables.net-dt/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="/../lib/datatables.net-responsive-dt/css/responsive.dataTables.min.css" rel="stylesheet">
+    <link href="/../lib/select2/css/select2.min.css" rel="stylesheet">
+
+    <!-- template css -->
+    <link rel="stylesheet" href="/../assets/css/cassie.css">
+
+</head>
+<body>
+<section layout:fragment="content">
+
+    <div class="content-header justify-content-between">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Listes des Commandes</li>
+                </ol>
+            </nav>
+            <h4 class="content-title content-title-xs">Commande</h4>
+        </div>
+        <div class="d-none d-sm-flex">
+            <a href="addcommandeClient" class="btn btn-primary btn-sm btn-uppercase"><i data-feather="plus-circle"></i> Nouveau Commande</a>
+        </div>
+    </div>
+    <div class="component-section mg-t-0">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="example2_wrapper" class="dataTables_wrapper no-footer">
+                    <div class="dataTables_length" id="example2_length">
+                        <label>
+                            <select name="example2_length" aria-controls="example2" class="select2-hidden-accessible" data-select2-id="4" tabindex="-1" aria-hidden="true">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                            <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="5" style="width: 47.6px;">
+                                <span class="selection">
+                                    <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-example2_length-fu-container">
+                                        <span class="select2-selection__rendered" id="select2-example2_length-fu-container" role="textbox" aria-readonly="true" title="10">10</span>
+                                        <span class="select2-selection__arrow" role="presentation">
+                                            <b role="presentation"></b>
+                                        </span>
+                                    </span>
+                                </span>
+                                <span class="dropdown-wrapper" aria-hidden="true"></span>
+                            </span> items/page
+                        </label>
+                    </div>
+                    <form method="get" th:action="@{ltClient}" role="search" class="app-search">
+
+                        <div id="example2_filter" class="dataTables_filter">
+                            <label>
+                                <input type="search" class="form-control" placeholder="Search..." aria-controls="example2" name="key" th:value="${key}">
+                            </label>
+                        </div>
+                    </form>
+                    <table id="example2" class="table dataTable no-footer dtr-inline">
+                        <tr>
+                            <th class="sorting">ID</th>
+                            <th class="sorting">code</th>
+                            <th class="sorting">date Commande</th>
+                            <th class="sorting">Client</th>
+                         
+                            <th>Action</th>
+                        </tr>
+                        <tr th:each="c:${commandeClient}">
+                            <td th:text="${c.id}"></td>
+                            <td th:text="${c.code}"></td>
+                            <td th:text="${c.dateCommande}"></td>
+                            <td th:text="${c.client.id}"></td>
+                            
+                            
+                            <td>
+                                <a onclick="return confirm('Vous voulez vraimant supprimer ce Commande ?')" class="ion-trash-b" style=""
+                                   th:href="@{deletecommandeClient(id=${c.id}, key=${key}, page=${currentPage}, size=${size})}"></a>
+                                <a> | </a>
+                                <a class="ion-compose" style="" th:href="@{editcommandeClient(id=${c.id})}"></a>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">
+                        Total Items [[${totalItems}]].
+                    </div>
+                    <div class="dataTables_paginate paging_simple_numbers">
+                        <ul class="nav nav-pills">
+                            <nav aria-label="Page navigation example">
+                                <div class="dataTables_paginate paging_simple_numbers" >
+                                    <div>
+
+                                    </div>
+                                    <div>
+                                        <a class="paginate_button previous" th:if="${currentPage != 0}"  th:href="@{ltcommandeClient(page=${currentPage - 1}, keyword=${key}, size=${size})}" aria-controls="example2" data-dt-idx="0" tabindex="0" id="example2_previous">Precedent</a>
+                                        <span th:unless="${currentPage > -1}"></span>
+                                        <il th:each="page,status:${pages}" class="page-item">
+                                            <a th:if="${totalpages > 1}" th:class="${status.index==currentPage?'paginate_button current':'paginate_button'}" th:href="@{ltcommandeClient(page=${status.index}, keyword=${key}, size=${size})}" th:text="${status.index}"></a>
+                                        </il>
+                                        <a class="paginate_button next" th:if="${totalpages > 1}"
+                                           th:href="@{ltcommandeClient(page=${currentPage + 1}, keyword=${key}, size=${size})}"
+                                           th:unless="${currentPage == (totalpages - 1)}"
+                                           aria-controls="example2"
+                                           data-dt-idx="7"
+                                           tabindex="0"
+                                           id="example2_next">Suivant</a>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</section>
+
+<script src="/../lib/jquery/jquery.min.js"></script>
+<script src="/../lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/../lib/feather-icons/feather.min.js"></script>
+<script src="/../lib/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="/../lib/prismjs/prism.js"></script>
+<script src="/../lib/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/../lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
+<script src="/../lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/../lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js"></script>
+<script src="/../lib/select2/js/select2.min.js"></script>
+<script src="/../lib/js-cookie/js.cookie.js"></script>
+
+<script src="/../assets/js/cassie.js"></script>
+<script>
+    $(function() {
+        'use strict'
+
+        $('#example2').DataTable({
+            responsive: true,
+            language: {
+                searchPlaceholder: 'Search...',
+                sSearch: '',
+                lengthMenu: '_MENU_ items/page',
+            }
+        });
+
+        // Select2
+        $('.dataTables_length select').select2({ minimumResultsForSearch: Infinity });
+
+    })
+</script>
+</body>
+</html>
+
+
+
