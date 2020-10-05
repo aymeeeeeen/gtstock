@@ -1,11 +1,8 @@
 package org.sid.gestionstock.web;
 
-import org.sid.gestionstock.dao.ArticleRepository;
-import org.sid.gestionstock.dao.ClientRepository;
-import org.sid.gestionstock.dao.FournisseurRepository;
-import org.sid.gestionstock.entities.Article;
-import org.sid.gestionstock.entities.Client;
-import org.sid.gestionstock.entities.Fournisseur;
+import org.sid.gestionstock.Service.ICommandeService;
+import org.sid.gestionstock.dao.*;
+import org.sid.gestionstock.entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,16 +10,29 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
+
 
 @Controller
 public class StockController {
 
     @Autowired
     private ClientRepository clientRepository;
+
     @Autowired
     private ArticleRepository articleRepository;
+
     @Autowired
     private FournisseurRepository fournisseurRepository;
+
+    @Autowired
+    private CommandeClientRepository commandeClientRepository;
+
+    @Autowired
+    private LigneCommandeClientRepository ligneCommandeClientRepository;
+
+    @Autowired
+    private ICommandeService iCommandeService;
 
     @GetMapping(path = "/index")
     public String index(){
@@ -164,4 +174,80 @@ public class StockController {
         return "addFournisseur";
     }
 
+    /// les methodes de table Commande Client
+
+    @GetMapping(path = "/ltCommandeClient")
+    public String ltCommandeClient(Model model,
+                                @RequestParam(name = "page", defaultValue = "0")int page,
+                                @RequestParam(name = "size", defaultValue = "10")int size,
+                                @RequestParam(name = "key", defaultValue = "")String mc) {
+        Page<CommandeClient> pageCommandeClient=commandeClientRepository.findByCodeContains(mc, PageRequest.of(page, size));
+        model.addAttribute("CommandeClient", pageCommandeClient.getContent());
+        model.addAttribute("pages", new int[pageCommandeClient.getTotalPages()]);
+        model.addAttribute("totalpages", pageCommandeClient.getTotalPages());
+        model.addAttribute("totalItems", pageCommandeClient.getTotalElements());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("size", size);
+        model.addAttribute("key", mc);
+        return "ltCommandeClient";
+    }
+
+    @GetMapping(path = "/addCommandeClient")
+    public String addCommandeClient(Model model){
+
+
+        model.addAttribute("codeCmd", iCommandeService.genererCodeCommandeClient());
+        model.addAttribute("client", clientRepository.findAll());
+        model.addAttribute("articles", articleRepository.findAll());
+        model.addAttribute("LigneCommandeClients", new LigneCommandeClient());
+        model.addAttribute("CommandeClient" , new CommandeClient());
+        return "addCommandeClient";
+    }
+
+    @PostMapping("/saveCommandeClient")
+    public String saveCommandeClient(CommandeClient commandeClient,
+                                     LigneCommandeClient lcmd,
+                                     @RequestParam (name="cmdclt")Long id){
+        commandeClientRepository.save(commandeClient);
+
+//        commandeClientRepository.findAll().forEach(cmdclient -> {
+//            LigneCommandeClient ligneCommandeClient = new LigneCommandeClient();
+//            ligneCommandeClient.setCommandeClient(cmdclient);
+//            ligneCommandeClientRepository.save(ligneCommandeClient);
+//        });
+//        ligneCommandeClientRepository.save(lcmd);
+        CommandeClient cmdclt = commandeClientRepository.findById(id).get();
+        lcmd.setCommandeClient(cmdclt);
+        ligneCommandeClientRepository.save(lcmd);
+        return "redirect:/ltCommandeClient";
+    }
+
+    @GetMapping(path = "/deleteCommandeClient")
+    public String deleteCommandeClient(Long id, String key, int page, int size) {
+        commandeClientRepository.deleteById(id);
+        return "redirect:/ltCommandeClient?page"+page+"&size"+size+"&key"+key;
+    }
+
+    @GetMapping(path = "/editCommandeClient")
+    public String editCommandeClient(Model model, Long id) {
+        CommandeClient commandeClient = commandeClientRepository.findById(id).get();
+        model.addAttribute("CommandeClient", commandeClient);
+        return "addCommandeClient";
+    }
+
+    /// les methodes de table Commande Client
+
+//    @GetMapping(path = "/addLigneCommandeClient")
+//    public String addLigneCommandeClient(Model model){
+//        return "addCommandeClient";
+//    }
+//
+//    @PostMapping("/saveLigneCommandeClient")
+//    public String saveLigneCommandeClient(LigneCommandeClient ligneCommandeClient,
+//                                          @RequestParam (name="cmdclt")Long id){
+//        CommandeClient cmdclt = commandeClientRepository.findById(id).get();
+//        ligneCommandeClient.setCommandeClient(cmdclt);
+//        ligneCommandeClientRepository.save(ligneCommandeClient);
+//        return "redirect:/ltCommandeClient";
+//    }
 }

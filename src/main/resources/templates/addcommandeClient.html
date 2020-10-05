@@ -1,70 +1,111 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{index.html}">
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{index.html}">
 <head>
-<title>Nouveau Commande</title>
+    <title>Ajouter Une nouveau commande</title>
 </head>
 <body>
-	<section layout:fragment="content">
-		<div class="content-header justify-content-between">
-			<div>
-				<nav aria-label="breadcrumb">
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Pages</a></li>
-						<li class="breadcrumb-item"><a href="ltArticle">Listes
-								des Articles</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Nouveau
-							Commande</li>
-					</ol>
-				</nav>
-				<h4 class="content-title content-title-xs">Formulaire pour
-					ajouter un nouveau commande</h4>
-			</div>
+<section layout:fragment="content">
+    <div class="content-header justify-content-between">
+        <div>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item"><a href="ltCommandeClient">Liste des commande des Clients</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Nouveau Commande</li>
+                </ol>
+            </nav>
+            <h4 class="content-title content-title-xs">Formulaire pour ajouter une nouveau commande</h4>
+        </div>
 
-		</div>
-		<div
-			class="alert alert-solid alert-primary d-flex align-items-center mg-b-0"
-			role="alert">
-			<i data-feather="alert-circle" class="mg-r-10"></i> Cette alerte a
-			besoin de votre attention,<strong>vous devez obligatoirement
-				remplir tous les champs.</strong>
-		</div>
-		<div class="card mg-t-25">
-			<div class="card-body">
-				<form th:action="@{savecommandeClient}" method="post"
-					th:object="${commandeClient}">
-					<h6 class="tx-uppercase tx-semibold tx-color-01 mg-b-0"
-						style="padding-left: 500px;">Les informations Du Commande</h6>
-					<div class="form-group row">
-						<div class="col-sm-6">
-							<label class="form-label">code</label> <input
-								class="form-control" type="hidden" name="id"
-								th:value="${commandeClient.id}"> <input type="text"
-								class="form-control" placeholder="Entrer Le code Du Commande"
-								th:field="*{code}">
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-6">
-							<label class="form-label">date Commande</label> <input
-								type="date" class="form-control" th:field="*{dateCommande}">
-						</div>
-						
-					</div> <div class="col-sm-6">
-                            <label class="form-label">Client</label>
-                            <select class="form-control" th:field="*{client.id}">
-									<option value="">--</option>
-									<option onfocus='this.size=5;' onblur='this.size=1;'
-										onchange='this.size=1; this.blur();'
-										th:each="client : ${ltClient}" th:value="${client.id}"
-										th:utext="${client.id}" />
-								</select>
+    </div>
+    <div class="alert alert-solid alert-primary d-flex align-items-center mg-b-0" role="alert">
+        <i data-feather="alert-circle" class="mg-r-10"></i> Cette alerte a besoin de votre attention,<strong>vous devez obligatoirement remplir tous les champs.</strong>
+    </div>
+    <div class="card mg-t-25">
+        <div class="card-body">
+            <form th:action="@{saveCommandeClient}" method="post" th:object="${CommandeClient}">
+
+                <h6 class="tx-uppercase tx-semibold tx-color-01 mg-b-0">Les informations Du Commande</h6>
+                <hr>
+                <div class="">
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <label class="form-label">Code Commande</label>
+                            <input class="form-control" type="hidden" name="id" th:value="${CommandeClient.id}">
+                            <a th:value="${codeCmd}">
+                                <input class="form-control" type="text" th:field="*{code}">
+                            </a>
+
                         </div>
-                        <button class="btn btn-brand-02" type="submit">Enregistrer</button>
+                        <div class="col-sm-4">
+                            <label class="form-label">Nom du Client </label>
+                            <select class="form-control" type="text" name="ville" placeholder="" th:field="*{client}">
+                                <option th:each="c:${client}" th:text="${c.nom}" th:value="${c.id}" >
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="form-label">La date de La commande</label>
+                            <input id="inputDate" type="text" class="form-control" placeholder="YYYY/MM/DD" th:field="*{dateCommande}">
+                        </div>
+                    </div><!-- form-group -->
+                    <h6 class="tx-uppercase tx-semibold tx-color-01 mg-b-0">Détails de la commande</h6>
+                    <hr>
+                    <form th:action="@{saveCommandeClient}" method="post" th:object="${LigneCommandeClients}">
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label class="form-label">Nom d'Article </label>
+                                <select class="form-control" type="text" name="ville" placeholder="" th:field="*{article}">
+                                    <option th:each="a:${articles}" th:text="${a.codeArticle}" th:value="${a.id}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Quantité</label>
+                                <input type="text" class="form-control" placeholder="Entrer Le Numéro De Téléphone Du Client" th:field="*{quantite}">
+                            </div>
+                        </div><!-- form-group -->
+                        <div class="form-group row">
+                            <div class="col-sm-6">
+                                <label class="form-label">Prix Unitaie</label>
+                                <input type="text" class="form-control" placeholder="Entrer La Ville Du Client" th:field="*{prixUnitaire}">
+                            </div>
+                            <input class="form-control" type="hidden" name="cmdclt" th:value="${CommandeClient.id}">
+                            <!--                            <div class="col-sm-6">-->
+                            <!--                                <label class="form-label">Total</label>-->
+                            <!--                                <input type="text" class="form-control" placeholder="Entrer La Ville Du Client" th:field="*{commandeClient.id}">-->
+                            <!--                            </div>-->
+                        </div><!-- form-group -->
+                    </form>
+
+                    <hr class="op-0">
+
+                    <button class="btn btn-brand-02" type="submit">Enregistrer</button>
                     <button class="btn btn-white mg-l-2">Annuler</button>
-				</form>
-			</div>
-		</div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/../lib/jquery/jquery.min.js"></script>
+    <script src="/../lib/prismjs/prism.js"></script>
+    <script src="/../lib/cleave.js/cleave.min.js"></script>
+    <script src="/../lib/cleave.js/addons/cleave-phone.us.js"></script>
+    <script src="/../lib/js-cookie/js.cookie.js"></script>
+
+    <script>
+        $(function(){
+            'use strict'
+
+            // Date Formatting
+            var cleaveC = new Cleave('#inputDate', {
+                date: true,
+                datePattern: ['Y', 'm', 'd']
+            });
+        });
+    </script>
+</section>
 </body>
 </html>

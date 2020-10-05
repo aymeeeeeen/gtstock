@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html   xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{index.html}">
+        layout:decorate="~{index.html}">
 <head>
-    <title>Liste des Commandes</title>
+    <title>Liste des Commandes des Client</title>
 
     <!-- vendor css -->
     <link href="/../lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
@@ -26,13 +26,13 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Pages</a></li>
                     <li class="breadcrumb-item"><a href="dashboard">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Listes des Commandes</li>
+                    <li class="breadcrumb-item active" aria-current="page">Listes des Commandes Des Clients</li>
                 </ol>
             </nav>
-            <h4 class="content-title content-title-xs">Commande</h4>
+            <h4 class="content-title content-title-xs">Les Commandes Des Clients</h4>
         </div>
         <div class="d-none d-sm-flex">
-            <a href="addcommandeClient" class="btn btn-primary btn-sm btn-uppercase"><i data-feather="plus-circle"></i> Nouveau Commande</a>
+            <a href="addCommandeClient" class="btn btn-primary btn-sm btn-uppercase"><i data-feather="plus-circle"></i> Nouvelle Commande</a>
         </div>
     </div>
     <div class="component-section mg-t-0">
@@ -60,7 +60,7 @@
                             </span> items/page
                         </label>
                     </div>
-                    <form method="get" th:action="@{ltClient}" role="search" class="app-search">
+                    <form method="get" th:action="@{ltCommandeClient}" role="search" class="app-search">
 
                         <div id="example2_filter" class="dataTables_filter">
                             <label>
@@ -70,25 +70,24 @@
                     </form>
                     <table id="example2" class="table dataTable no-footer dtr-inline">
                         <tr>
-                            <th class="sorting">ID</th>
-                            <th class="sorting">code</th>
-                            <th class="sorting">date Commande</th>
+                            <th class="sorting_asc" >ID</th>
                             <th class="sorting">Client</th>
-                         
+                            <th class="sorting">Code Commande</th>
+                            <th class="sorting">Date de la Commande</th>
+                            <th class="sorting">Total</th>
                             <th>Action</th>
                         </tr>
-                        <tr th:each="c:${commandeClient}">
-                            <td th:text="${c.id}"></td>
-                            <td th:text="${c.code}"></td>
-                            <td th:text="${c.dateCommande}"></td>
-                            <td th:text="${c.client.id}"></td>
-                            
-                            
+                        <tr th:each="cmd:${CommandeClient}">
+                            <td th:text="${cmd.id}"></td>
+                            <td th:text="${cmd.client.nom}"></td>
+                            <td th:text="${cmd.code}"></td>
+                            <td th:text="${cmd.dateCommande}"></td>
+                            <td th:text="${cmd.totalCommande}"></td>
                             <td>
-                                <a onclick="return confirm('Vous voulez vraimant supprimer ce Commande ?')" class="ion-trash-b" style=""
-                                   th:href="@{deletecommandeClient(id=${c.id}, key=${key}, page=${currentPage}, size=${size})}"></a>
+                                <a onclick="return confirm('Vous voulez vraimant supprimer cette commande ?')" class="ion-trash-b" style=""
+                                   th:href="@{deleteCommandeClient(id=${cmd.id}, key=${key}, page=${currentPage}, size=${size})}"></a>
                                 <a> | </a>
-                                <a class="ion-compose" style="" th:href="@{editcommandeClient(id=${c.id})}"></a>
+                                <a class="ion-compose" style="" th:href="@{editCommandeClient(id=${cmd.id})}"></a>
                             </td>
                         </tr>
                     </table>
@@ -103,13 +102,13 @@
 
                                     </div>
                                     <div>
-                                        <a class="paginate_button previous" th:if="${currentPage != 0}"  th:href="@{ltcommandeClient(page=${currentPage - 1}, keyword=${key}, size=${size})}" aria-controls="example2" data-dt-idx="0" tabindex="0" id="example2_previous">Precedent</a>
+                                        <a class="paginate_button previous" th:if="${currentPage != 0}"  th:href="@{ltCommandeClient(page=${currentPage - 1}, keyword=${key}, size=${size})}" aria-controls="example2" data-dt-idx="0" tabindex="0" id="example2_previous">Precedent</a>
                                         <span th:unless="${currentPage > -1}"></span>
                                         <il th:each="page,status:${pages}" class="page-item">
-                                            <a th:if="${totalpages > 1}" th:class="${status.index==currentPage?'paginate_button current':'paginate_button'}" th:href="@{ltcommandeClient(page=${status.index}, keyword=${key}, size=${size})}" th:text="${status.index}"></a>
+                                            <a th:if="${totalpages > 1}" th:class="${status.index==currentPage?'paginate_button current':'paginate_button'}" th:href="@{ltCommandeClient(page=${status.index}, keyword=${key}, size=${size})}" th:text="${status.index}"></a>
                                         </il>
                                         <a class="paginate_button next" th:if="${totalpages > 1}"
-                                           th:href="@{ltcommandeClient(page=${currentPage + 1}, keyword=${key}, size=${size})}"
+                                           th:href="@{ltCommandeClient(page=${currentPage + 1}, keyword=${key}, size=${size})}"
                                            th:unless="${currentPage == (totalpages - 1)}"
                                            aria-controls="example2"
                                            data-dt-idx="7"
@@ -126,9 +125,6 @@
             </div>
         </div>
     </div>
-
-
-
 </section>
 
 <script src="/../lib/jquery/jquery.min.js"></script>
@@ -144,7 +140,7 @@
 <script src="/../lib/js-cookie/js.cookie.js"></script>
 
 <script src="/../assets/js/cassie.js"></script>
-<script>
+<script th:inline="javascript">
     $(function() {
         'use strict'
 
@@ -164,6 +160,3 @@
 </script>
 </body>
 </html>
-
-
-
